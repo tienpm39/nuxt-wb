@@ -35,13 +35,13 @@
           for="checkbox"
           v-for="item in btn"
           :key="item.id"
-          class="relative flex justify-center p-0.5 border rounded border-primary text-primary first:border-red-500 first:text-red-500 hover:bg-gray-200 "
+          class="relative flex justify-center p-0.5 border rounded border-primary text-primary first:border-red-500 first:text-red-500 hover:bg-gray-200 checked:bg-primary "
         >
           <div class="relative">
             <span class="text-xs font-semibold label-text">{{
               item.title
             }}</span>
-            <input type="checkbox" id="checkbox" class="hidden" />
+            <input type="checkbox" id="item.checkbox" class="hidden" v-model="item.checked" value="item.title" />
           </div>
           <label
             for="checkbox"
@@ -176,6 +176,7 @@ export default {
   components: { Category, Button, ProductList },
   data() {
     return {
+      checked: false,
       products: [
         {
           id: 1,
