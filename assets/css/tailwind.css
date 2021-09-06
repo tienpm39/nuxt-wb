@@ -1,0 +1,8 @@
+:root {
+  --bg-color: #f6f8fb;
+  --primary-color: #ff9900;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
