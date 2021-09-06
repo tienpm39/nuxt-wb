@@ -1,0 +1,26 @@
+{
+  "ButtonCustomBtn": {
+    "description": "Auto imported from components/Button/CustomBtn.vue"
+  },
+  "Category": {
+    "description": "Auto imported from components/Category/Category.vue"
+  },
+  "Footer": {
+    "description": "Auto imported from components/Footer/Footer.vue"
+  },
+  "HeaderMainHeader": {
+    "description": "Auto imported from components/Header/MainHeader.vue"
+  },
+  "Navbar": {
+    "description": "Auto imported from components/Navbar/Navbar.vue"
+  },
+  "NavbarNavMobile": {
+    "description": "Auto imported from components/Navbar/NavMobile.vue"
+  },
+  "ProductItem": {
+    "description": "Auto imported from components/ProductItem/ProductItem.vue"
+  },
+  "ProductList": {
+    "description": "Auto imported from components/ProductList/ProductList.vue"
+  }
+}
