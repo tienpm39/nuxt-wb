@@ -6,8 +6,12 @@
       <div
         class="relative grid grid-cols-9 sm:grid-cols-5 xs:grid-cols-4 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-9 2xl:grid-cols-9"
       >
-        <category v-for="item in items" :key="item.id" @click="isHidden = !isHidden">
-          <template #icon >
+        <category
+          v-for="item in items"
+          :key="item.id"
+          @handlePopup="handlePopup"
+        >
+          <template #icon>
             <font-awesome-icon :icon="item.icon" />
           </template>
           <template #title>
@@ -17,55 +21,59 @@
       </div>
       <!-- popover -->
       <div class="relative">
-        <div class="flex items-center justify-center py-2 bg-gray-200 rounded popover" v-show="isHidden">
-        <div class="flex-grow">
-          <div
-            class="flex items-center justify-center w-10 h-10 mx-3 text-3xl text-white rounded bg-primary"
-          >
-            <font-awesome-icon icon="search" />
+        <div
+          class="flex items-center justify-center py-2 bg-gray-200 rounded popover"
+          v-show="isHidden"
+        >
+          <div class="flex-grow">
+            <div
+              class="flex items-center justify-center w-10 h-10 mx-3 text-3xl text-white rounded bg-primary"
+            >
+              <font-awesome-icon icon="search" />
+            </div>
           </div>
-        </div>
-        <div class="flex flex-wrap ">
-          <div
-            for="checkbox"
-            v-for="item in choices"
-            :key="item.id"
-            class="relative flex justify-center px-8 border rounded py-0.5 text-primary mt-px mr-2 my-1"
-            :class="[item.checked ? 'bg-primary' : 'bg-white']"
-          >
-            <label v-if="item.checked">
-              <span class="text-xs font-semibold text-white">
-                {{ item.title }}</span
-              >
-              <input
-                type="checkbox"
-                id="checkbox"
-                :checked="item.checked"
-                @change="onChange(item)"
-                hidden
-              />
-              <label
-                for="checkbox"
-                class="absolute w-3 h-3 bg-white border border-white rounded-full cursor-pointer top-2 right-2 ticker"
-              ></label>
-            </label>
-            <label v-else>
-              <span class="text-xs font-semibold "> {{ item.title }}</span>
-              <input
-                type="checkbox"
-                id="checkbox"
-                hidden
-                :checked="item.checked"
-                @change="onChange(item)"
-              />
-            </label>
+          <div class="flex flex-wrap ">
+            <div
+              for="checkbox"
+              v-for="item in choices"
+              :key="item.id"
+              class="relative flex justify-center px-8 border rounded py-0.5 text-primary mt-px mr-2 my-1"
+              :class="[item.checked ? 'bg-primary' : 'bg-white']"
+            >
+              <label v-if="item.checked">
+                <span class="text-xs font-semibold text-white">
+                  {{ item.title }}</span
+                >
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  :checked="item.checked"
+                  @change="onChange(item)"
+                  hidden
+                />
+                <label
+                  for="checkbox"
+                  class="absolute w-3 h-3 bg-white border border-white rounded-full cursor-pointer top-2 right-2 ticker"
+                ></label>
+              </label>
+              <label v-else>
+                <span class="text-xs font-semibold "> {{ item.title }}</span>
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  hidden
+                  :checked="item.checked"
+                  @change="onChange(item)"
+                />
+              </label>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-      
+
       <div class="flex justify-center py-4">
         <button
+          v-if="!isHidden"
           class="px-8 py-4 font-semibold border-2 rounded-lg text-primary border-primary hover:bg-secondary hover:text-white hover:border-secondary"
         >
           全てのカテゴリーを選択
@@ -375,6 +383,9 @@ export default {
     onChange: function(e) {
       e.checked = !e.checked;
     },
+    handlePopup() {
+      this.isHidden = !this.isHidden;
+    }
   }
 };
 </script>
@@ -408,6 +419,6 @@ export default {
   border: 20px solid;
   border-color: transparent transparent #e5e7eb transparent;
   position: absolute;
-  top:-35px
+  top: -35px;
 }
 </style>
