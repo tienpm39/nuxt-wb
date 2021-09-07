@@ -6,8 +6,8 @@
       <div
         class="relative grid grid-cols-9 sm:grid-cols-5 xs:grid-cols-4 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-9 2xl:grid-cols-9"
       >
-        <category v-for="item in items" :key="item.id" url="/">
-          <template #icon>
+        <category v-for="item in items" :key="item.id" @click="isHidden = !isHidden">
+          <template #icon >
             <font-awesome-icon :icon="item.icon" />
           </template>
           <template #title>
@@ -16,9 +16,54 @@
         </category>
       </div>
       <!-- popover -->
-      <!-- <div class="w-full p-4 bg-gray-200 rounded-sm">
-        aaaaaaaaaa
-      </div> -->
+      <div class="relative">
+        <div class="flex items-center justify-center py-2 bg-gray-200 rounded popover" v-show="isHidden">
+        <div class="flex-grow">
+          <div
+            class="flex items-center justify-center w-10 h-10 mx-3 text-3xl text-white rounded bg-primary"
+          >
+            <font-awesome-icon icon="search" />
+          </div>
+        </div>
+        <div class="flex flex-wrap ">
+          <div
+            for="checkbox"
+            v-for="item in choices"
+            :key="item.id"
+            class="relative flex justify-center px-8 border rounded py-0.5 text-primary mt-px mr-2 my-1"
+            :class="[item.checked ? 'bg-primary' : 'bg-white']"
+          >
+            <label v-if="item.checked">
+              <span class="text-xs font-semibold text-white">
+                {{ item.title }}</span
+              >
+              <input
+                type="checkbox"
+                id="checkbox"
+                :checked="item.checked"
+                @change="onChange(item)"
+                hidden
+              />
+              <label
+                for="checkbox"
+                class="absolute w-3 h-3 bg-white border border-white rounded-full cursor-pointer top-2 right-2 ticker"
+              ></label>
+            </label>
+            <label v-else>
+              <span class="text-xs font-semibold "> {{ item.title }}</span>
+              <input
+                type="checkbox"
+                id="checkbox"
+                hidden
+                :checked="item.checked"
+                @change="onChange(item)"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+      </div>
+      
       <div class="flex justify-center py-4">
         <button
           class="px-8 py-4 font-semibold border-2 rounded-lg text-primary border-primary hover:bg-secondary hover:text-white hover:border-secondary"
@@ -31,23 +76,40 @@
       <div
         class="grid grid-cols-6 gap-x-3 gap-y-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-6"
       >
-        <label
+        <div
           for="checkbox"
           v-for="item in btn"
           :key="item.id"
-          class="relative flex justify-center p-0.5 border rounded border-primary text-primary first:border-red-500 first:text-red-500 hover:bg-gray-200 checked:bg-primary "
+          class="flex justify-center p-0.5 border rounded border-primary text-primary first:border-red-500 first:text-red-500 relative"
+          :class="[item.checked ? 'bg-primary' : 'bg-white']"
         >
-          <div class="relative">
-            <span class="text-xs font-semibold label-text">{{
-              item.title
-            }}</span>
-            <input type="checkbox" id="item.checkbox" class="hidden" v-model="item.checked" value="item.title" />
-          </div>
-          <label
-            for="checkbox"
-            class="absolute w-3 h-3 border border-gray-200 rounded-full cursor-pointer top-2 right-2"
-          ></label>
-        </label>
+          <label v-if="item.checked">
+            <span class="text-xs font-semibold text-white">
+              {{ item.title }}</span
+            >
+            <input
+              type="checkbox"
+              id="checkbox"
+              :checked="item.checked"
+              @change="onChange(item)"
+              hidden
+            />
+            <label
+              for="checkbox"
+              class="absolute w-3 h-3 bg-white border border-white rounded-full cursor-pointer top-2 right-2 ticker"
+            ></label>
+          </label>
+          <label v-else>
+            <span class="text-xs font-semibold "> {{ item.title }}</span>
+            <input
+              type="checkbox"
+              id="checkbox"
+              hidden
+              :checked="item.checked"
+              @change="onChange(item)"
+            />
+          </label>
+        </div>
       </div>
 
       <div class="header">キーワードからの検索</div>
@@ -176,7 +238,7 @@ export default {
   components: { Category, Button, ProductList },
   data() {
     return {
-      checked: false,
+      isHidden: false,
       products: [
         {
           id: 1,
@@ -276,21 +338,43 @@ export default {
         { id: 18, title: "移動機器（車いす等)", icon: "archive" }
       ],
       btn: [
-        { id: 1, title: "新製品" },
-        { id: 2, title: "操作しやすい" },
-        { id: 3, title: "多機能" },
-        { id: 4, title: "小型・軽量化" },
-        { id: 5, title: "カスタム可能" },
-        { id: 6, title: "耐久性を重視" },
-        { id: 7, title: "安全性に配慮" },
-        { id: 8, title: "デザインにこだわり" },
-        { id: 9, title: "災害時も役立つ" },
-        { id: 10, title: "介護保険適用" },
-        { id: 11, title: "サポート充実" },
-        { id: 12, title: "試用可能" }
+        { id: 1, title: "新製品", checked: false },
+        { id: 2, title: "操作しやすい", checked: false },
+        { id: 3, title: "多機能", checked: false },
+        { id: 4, title: "小型・軽量化", checked: false },
+        { id: 5, title: "カスタム可能", checked: false },
+        { id: 6, title: "耐久性を重視", checked: false },
+        { id: 7, title: "安全性に配慮", checked: false },
+        { id: 8, title: "デザインにこだわり", checked: false },
+        { id: 9, title: "災害時も役立つ", checked: false },
+        { id: 10, title: "介護保険適用", checked: false },
+        { id: 11, title: "サポート充実", checked: false },
+        { id: 12, title: "試用可能", checked: false }
       ],
-      num: [1, 2, 3, 4, 5, 6, 7, 8]
+      num: [1, 2, 3, 4, 5, 6, 7, 8],
+      choices: [
+        { id: 1, title: "施設建築、施設用床材・壁材", checked: false },
+        {
+          id: 2,
+          title: "自然エネルギー・省エネルギー技術機器",
+          checked: false
+        },
+        { id: 3, title: "再資源・水浄化処理機器", checked: false },
+        { id: 4, title: "洗濯機、乾燥機、掃除機、脱臭器", checked: false },
+        { id: 5, title: "いす・座位保持／立ち上がり補助用品", checked: false },
+        { id: 6, title: "家具、テーブル、洗面台", checked: false },
+        { id: 7, title: "災報知設備、自動消火設備", checked: false },
+        { id: 8, title: "防災・避難用品", checked: false },
+        { id: 9, title: "自家発電・蓄電装置", checked: false },
+        { id: 10, title: "介護職員用衣類", checked: false },
+        { id: 11, title: "その他", checked: false }
+      ]
     };
+  },
+  methods: {
+    onChange: function(e) {
+      e.checked = !e.checked;
+    },
   }
 };
 </script>
@@ -308,5 +392,22 @@ export default {
   background-color: silver;
   flex-grow: 1;
   margin-left: 15px;
+}
+.ticker::after {
+  border: 2px solid green;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 6px;
+  position: absolute;
+  transform: rotate(-45deg);
+  width: 9px;
+}
+.popover::before {
+  content: "";
+  border: 20px solid;
+  border-color: transparent transparent #e5e7eb transparent;
+  position: absolute;
+  top:-35px
 }
 </style>
